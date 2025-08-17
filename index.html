@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simplon Maghreb · Bloc System Design & DevOps</title>
+  <style>
+    :root{
+      --bg: #f6f8ff; --ink:#0f172a; --muted:#475569; --card:#ffffff; --line:#e2e8f0; --brand:#4f46e5; --brand-2:#1d4ed8;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;color:var(--ink);background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 50%,#e0f2fe 100%);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+    .wrap{max-width:1100px;margin:0 auto;padding:32px 16px}
+    .header{display:flex;gap:16px;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .title{font-weight:800;font-size:clamp(1.4rem,2.5vw,2rem);letter-spacing:-.02em}
+    .muted{color:var(--muted)}
+    .pills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 24px}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:13px}
+    .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+    .tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;text-align:center;font-size:14px;cursor:pointer}
+    .tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid.cols-5{grid-template-columns:repeat(5,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+    .card{background:rgba(255,255,255,.9);backdrop-filter:saturate(1.1) blur(2px);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:18px}
+    h2{font-size:1.1rem;margin:.2rem 0 1rem}
+    ul{padding-left:1.2rem}
+    a.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink);background:#fff}
+    a.btn:hover{background:#f8fafc}
+    .file{display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+    .file + .file{margin-top:10px}
+    .file .meta{font-size:13px;color:var(--muted)}
+    .footer{margin-top:32px;text-align:center;color:var(--muted);font-size:13px}
+    /* Access Gate */ 
+    .gate-wrap{min-height:50vh;display:grid;place-items:center}
+    .gate{max-width:420px;width:100%}
+    input[type=password]{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:15px}
+    button.primary{width:100%;margin-top:10px;padding:12px;border:0;border-radius:12px;background:var(--brand);color:#fff;font-weight:600;cursor:pointer}
+    button.primary:hover{background:var(--brand-2)}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+    iframe{width:100%;height:70vh;border:1px solid var(--line);border-radius:14px;background:#fff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="title">System Design & DevOps – Bloc de compétences</div>
+        <div class="muted">Simplon Maghreb · présentation interactive</div>
+      </div>
+      <div>
+        <a class="btn" id="shareBtn" href="#">Partager (avec code)</a>
+      </div>
+    </div>
+
+    <div class="pills">
+      <div class="pill">System Design</div>
+      <div class="pill">DevOps</div>
+      <div class="pill">CI/CD</div>
+      <div class="pill">Kubernetes</div>
+      <div class="pill">Monitoring & Sécurité</div>
+    </div>
+
+    <!-- Access Gate -->
+    <div id="gate" class="gate-wrap">
+      <div class="card gate">
+        <h2>Accès protégé</h2>
+        <p class="muted">Entrez le code d’accès pour consulter la page.</p>
+        <input type="password" id="codeInput" placeholder="Code d’accès" />
+        <button class="primary" id="openBtn">Ouvrir</button>
+        <p class="muted" style="margin-top:8px;font-size:12px">Astuce : ajoutez <span class="mono">?code=SIMPLON2025</span> à l’URL pour partager un lien direct.</p>
+      </div>
+    </div>
+
+    <div id="content" style="display:none">
+      <div class="tabs">
+        <div class="tab active" data-tab="overview">Aperçu</div>
+        <div class="tab" data-tab="docs">Documents</div>
+        <div class="tab" data-tab="curriculum">Progression</div>
+        <div class="tab" data-tab="referentiel">Référentiel</div>
+        <div class="tab" data-tab="evaluation">Évaluation</div>
+      </div>
+
+      <div id="tab-overview">
+        <div class="grid cols-5">
+          <div class="card" style="grid-column: span 3;">
+            <h2>Objectifs du bloc</h2>
+            <ul>
+              <li>Concevoir des architectures logicielles scalables et résilientes.</li>
+              <li>Automatiser l’intégration et le déploiement (CI/CD).</li>
+              <li>Conteneuriser et orchestrer des applications (Docker, Kubernetes).</li>
+              <li>Mettre en place la supervision, l’observabilité et la sécurité (DevSecOps).</li>
+              <li>Collaborer efficacement dans une culture DevOps.</li>
+            </ul>
+          </div>
+          <div class="card" style="grid-column: span 2;">
+            <h2>Téléchargements</h2>
+            <a class="file" href="docs/Fiche_Bloc_System_Design_DevOps.docx">
+              <div>📄</div>
+              <div>
+                <div><strong>Fiche Bloc – DOCX</strong></div>
+                <div class="meta">Version éditable pour Google Docs / Word</div>
+              </div>
+            </a>
+            <a class="file" href="docs/Fiche_Bloc_System_Design_DevOps.pdf">
+              <div>📕</div>
+              <div>
+                <div><strong>Fiche Bloc – PDF</strong></div>
+                <div class="meta">Version prête à présenter (PDF)</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h2>Projet fil rouge</h2>
+          <p>En équipe (3–4), concevoir, conteneuriser, déployer et superviser une application type "Netflix/Uber/Twitter" avec CI/CD complet, monitoring et sécurité intégrés. Soutenance finale.</p>
+        </div>
+      </div>
+
+      <div id="tab-docs" style="display:none">
+        <div class="grid cols-2">
+          <div class="card">
+            <h2>Fiche Bloc – Version PDF (aperçu)</h2>
+            <iframe src="docs/Fiche_Bloc_System_Design_DevOps.pdf"></iframe>
+          </div>
+          <div class="card">
+            <h2>Ressources téléchargeables</h2>
+            <a class="file" href="docs/Fiche_Bloc_System_Design_DevOps.docx">
+              <div>📄</div>
+              <div>
+                <div><strong>Fiche Bloc – DOCX</strong></div>
+                <div class="meta">Version éditable pour Google Docs / Word</div>
+              </div>
+            </a>
+            <a class="file" href="docs/Fiche_Bloc_System_Design_DevOps.pdf">
+              <div>📕</div>
+              <div>
+                <div><strong>Fiche Bloc – PDF</strong></div>
+                <div class="meta">Version prête à présenter (PDF)</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-curriculum" style="display:none">
+        <div class="card">
+          <h2>Plan de progression (5 semaines)</h2>
+          <ol>
+            <li><strong>S1 – System Design</strong> : architectures, bases de données, scaling, étude de cas.</li>
+            <li><strong>S2 – Culture DevOps & Automatisation</strong> : Git, CI, IaC, pipeline simple.</li>
+            <li><strong>S3 – Conteneurs & Orchestration</strong> : Docker, Kubernetes, canary/rolling.</li>
+            <li><strong>S4 – Observabilité & Sécurité</strong> : Prometheus, Grafana, logging, scans.</li>
+            <li><strong>S5 – Projet fil rouge & Soutenance</strong> : CI/CD complet, déploiement k8s, monitoring, pitch.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="tab-referentiel" style="display:none">
+        <div class="card">
+          <h2>Référentiel de compétences</h2>
+          <ul>
+            <li><strong>C1. Architecture</strong> – Débutant : composants ; Intermédiaire : modéliser multi-services ; Avancé : systèmes distribués.</li>
+            <li><strong>C2. Culture DevOps</strong> – Débutant : principes ; Intermédiaire : pipeline CI + IaC ; Avancé : DevSecOps.</li>
+            <li><strong>C3. CI/CD</strong> – Débutant : étapes ; Intermédiaire : tests+build ; Avancé : multi-env & audit.</li>
+            <li><strong>C4. Conteneurs</strong> – Débutant : Dockerfile ; Intermédiaire : compose & k8s ; Avancé : orchestration prod.</li>
+            <li><strong>C5. Supervision & Sécurité</strong> – Débutant : monitoring ; Intermédiaire : dashboards ; Avancé : observabilité complète.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="tab-evaluation" style="display:none">
+        <div class="card">
+          <h2>Système d’évaluation</h2>
+          <ul>
+            <li>Formatif : quiz, peer review, mini-projets, journal de bord.</li>
+            <li>Certificatif : checkpoints et démos techniques.</li>
+            <li>Sommative : projet fil rouge + soutenance.</li>
+          </ul>
+          <p><strong>Barème final :</strong><br>
+          40% Qualité technique ; 20% Sécurité/Monitoring ; 20% Documentation/Soutenance ; 20% Collaboration.</p>
+        </div>
+      </div>
+
+      <div class="footer">Simplon Maghreb · Bloc System Design & DevOps · Page interactive</div>
+    </div>
+  </div>
+
+<script>
+const CODE = "SIMPLON2025";
+const gate = document.getElementById('gate');
+const content = document.getElementById('content');
+const input = document.getElementById('codeInput');
+const btn = document.getElementById('openBtn');
+
+function unlock(){ gate.style.display='none'; content.style.display='block'; }
+
+btn.addEventListener('click',()=>{ if(input.value===CODE) unlock(); });
+window.addEventListener('DOMContentLoaded',()=>{
+  const urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get('code')===CODE) unlock();
+});
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('[id^=tab-]').forEach(sec=>sec.style.display='none');
+    document.getElementById('tab-'+tab.dataset.tab).style.display='block';
+  });
+});
+
+// Share
+document.getElementById('shareBtn').addEventListener('click',(e)=>{
+  e.preventDefault();
+  const url = new URL(window.location.href);
+  url.searchParams.set('code',CODE);
+  navigator.clipboard.writeText(url.toString()).then(()=>alert("Lien copié : "+url.toString())); 
+});
+</script>
+</body>
+</html>
